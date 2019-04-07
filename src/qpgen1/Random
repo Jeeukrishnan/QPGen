@@ -1,0 +1,154 @@
+import java.sql.Statement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.Collections;
+
+
+public class random
+{
+	public static void main(String [] args)
+	{
+  		try
+			{ 
+			     	Scanner scan=new Scanner(System.in);
+		 			System.out.println("Subject");
+		   			Connection con = editmode.connect();
+					Statement printall=con.createStatement();
+			
+					String sql="SELECT QSUBJECT FROM QBANK";
+					ResultSet r = printall.executeQuery(sql);
+					int count=0;
+					while(r.next())
+					{
+						count++;
+					}
+					r.first();
+		 			String s[]=new String[count];
+		 			String qsubject;
+          			s[0]=r.getString("qsubject");
+        			int j=1;
+					while ( r.next() ) 
+					{	int flag=0;
+				  		qsubject=r.getString("qsubject");
+				 		for(int i=0;i<j;i++)
+				 		{
+				 				if(s[i].equals(qsubject))
+				 				{
+				 					flag=1;
+				 					break;
+				 				}
+				 	
+						 }
+						 if(flag==0)
+						 {
+				 			 //s[i]=new String;
+				 				s[j]=qsubject;
+				 				j++;
+				 		}
+					}
+
+						for(int i=0;i<j;i++)
+						{
+							System.out.println(s[i]);
+						}
+					System.out.println("Enter Subject");
+					String qsub=scan.next();
+					System.out.println("Topic");
+					Statement print=con.createStatement();
+					print=con.createStatement();
+					sql="SELECT QTOPIC FROM QBANK";
+					ResultSet a = printall.executeQuery(sql);
+				    count=0;
+					while(a.next())
+					{
+						count++;
+					}
+					a.first();
+		 			String []s2=new String[count];
+
+         			 s2[0]=a.getString("qtopic");
+          			j=1;
+					while ( a.next() )
+				{
+					int flag=0;
+				 	 String qtopic=a.getString("qtopic");
+				 	for(int i=0;i<j;i++)
+				 	{
+				 			if(s2[i].equals(qtopic))
+				 			{
+				 				flag=1;
+				 				break;
+				 			}
+				 	
+				 	}
+				 	if(flag==0)
+				 	{
+				 	// s2[i]=new String;
+				 		s2[j]=qtopic;
+				 		j++;
+				 	}
+				}
+					for(int i=0;i<j;i++)
+					{
+							System.out.println(s2[i]);
+					}
+					System.out.println("Enter topic");
+				
+					String topic=scan.next();
+					int arr[]=new int[100];
+	                print=con.createStatement();
+				    sql="SELECT QSUBJECT,QTOPIC,QNOS FROM QBANK";
+				    ResultSet d=printall.executeQuery(sql);
+				    int i=0;
+                    while(d.next())
+                    {
+                	
+                	  String subj=d.getString("qsubject");
+                	  String top=d.getString("qtopic");
+                	  int no=d.getInt("qnos");
+                	  if(subj.equals(qsub)&&(top.equals(topic)))
+                	  {
+                		
+                		  arr[i]=no;
+                		  i=i+1;
+                	  }
+                   }
+                int n;
+           
+                System.out.println("enter the number of questions");
+                n=scan.nextInt();
+                
+
+                 ArrayList<Integer> list = new ArrayList<Integer>();
+       			 for (int k=0; k<i; k++) {
+            			list.add(new Integer(k));
+       				 }
+        		Collections.shuffle(list);
+        		int []qno=new int[100];
+
+        		for(int k=0;k<n;k++)
+              	{
+               	 		qno[k]=arr[list.get(k)];
+               	}
+
+           }	 
+                catch (Exception e)
+                 {
+                 System.err.println("Got an exception! ");
+                 System.err.println(e.getMessage());
+                }
+
+
+
+
+    }
+
+}
